@@ -1,9 +1,8 @@
 // save vectors and matrices defined in "nr3.h" (see Numerical Recipes) into .mat file for Matlab
-// can't figure out how to directly save to complex matrix yet
 
 #pragma once
-#include "mat.h"
 #include "nr3.h"
+#include "mat.h"
 
 void matsave(const Doub s, const std::string &varname, MATFile *pfile);
 

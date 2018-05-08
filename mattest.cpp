@@ -1,5 +1,3 @@
-// nr3.h must be place after mat.h, or the compilation gets an error! I don't know why!
-#include "mat.h"
 #include "nr3.h"
 #include "matsave.h"
 
@@ -40,5 +38,4 @@ int main() {
 
 	matClose(pfile);
 }
-
 

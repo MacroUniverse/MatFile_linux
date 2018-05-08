@@ -1,9 +1,11 @@
+// nr3.h from Numerical Recipes
+// modified by Hongyu Shi
+
 #ifndef _NR3_H_
 #define _NR3_H_
 
-#define _CHECKBOUNDS_ 1
+//#define _CHECKBOUNDS_ 1
 //#define _USESTDVECTOR_ 1
-//#define _USENRERRORCLASS_ 1
 //#define _TURNONFPES_ 1
 
 // all the system #include's we'll ever need
@@ -60,35 +62,6 @@ template<class T>
 inline void SWAP(T &a, T &b)
 	{T dum=a; a=b; b=dum;}
 
-// exception handling
-
-#ifndef _USENRERRORCLASS_
-#define throw(message) \
-{printf("ERROR: %s\n     in file %s at line %d\n", message,__FILE__,__LINE__); throw(1);}
-#else
-struct NRerror {
-	char *message;
-	char *file;
-	int line;
-	NRerror(char *m, char *f, int l) : message(m), file(f), line(l) {}
-};
-#define throw(message) throw(NRerror(message,__FILE__,__LINE__));
-void NRcatch(NRerror err) {
-	printf("ERROR: %s\n     in file %s at line %d\n",
-		err.message, err.file, err.line);
-	exit(1);
-}
-#endif
-
-// usage example:
-//
-//	try {
-//		somebadroutine();
-//	}
-//	catch(NRerror s) {NRcatch(s);}
-//
-// (You can of course substitute any other catch body for NRcatch(s).)
-
 
 // Vector and Matrix Classes
 
@@ -114,11 +87,6 @@ public:
 	inline int size() const;
 	void resize(int newn); // resize (contents not preserved)
 	void assign(int newn, const T &a); // resize and assign a constant value
-	// print matrix (VS debug does not support default arguments)
-	void print() const;
-	void print(int precision) const;
-	void print(int start, int n) const;
-	void print(int start, int n, int precision) const;
 	~NRvector();
 };
 
@@ -217,58 +185,6 @@ void NRvector<T>::assign(int newn, const T& a)
 }
 
 template <class T>
-void NRvector<T>::print() const
-{
-	int i, precision = 4;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = 0; i < nn; ++i) {
-		std::cout << v[i] << "   ";
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRvector<T>::print(int precision) const
-{
-	int i;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = 0; i < nn; ++i) {
-		std::cout << v[i] << "   ";
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRvector<T>::print(int start, int n) const
-{
-	int i, precision = 4;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = start; i < start + n; ++i) {
-		std::cout << v[i] << "   ";
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRvector<T>::print(int start, int n, int precision) const
-{
-	int i;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = start; i < start+n; ++i) {
-		std::cout << v[i] << "   ";
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
 NRvector<T>::~NRvector()
 {
 	if (v != NULL) delete[] (v);
@@ -298,11 +214,6 @@ public:
 	inline int ncols() const;
 	void resize(int newn, int newm); // resize (contents not preserved)
 	void assign(int newn, int newm, const T &a); // resize and assign a constant value
-	// print matrix (VS debug does not support default arguments)
-	void print() const;
-	void print(int precision) const;
-	void print(int start1, int start2, int n1, int n2) const;
-	void print(int start1, int start2, int n1, int n2, int precision) const;
 	~NRmatrix();
 };
 
@@ -438,68 +349,6 @@ void NRmatrix<T>::assign(int newn, int newm, const T& a)
 		for (i=1; i< nn; i++) v[i] = v[i-1] + mm;
 	}
 	for (i=0; i< nn; i++) for (j=0; j<mm; j++) v[i][j] = a;
-}
-
-template <class T>
-void NRmatrix<T>::print() const
-{
-	int i, j, precision = 4;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = 0; i < nn; ++i) {
-		for (j = 0; j < mm; ++j) {
-			std::cout << v[i][j] << "   ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRmatrix<T>::print(int precision) const
-{
-	int i, j;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = 0; i < nn; ++i) {
-		for (j = 0; j < mm; ++j) {
-			std::cout << v[i][j] << "   ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRmatrix<T>::print(int start1, int start2, int n1, int n2) const
-{
-	int i, j, precision = 4;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = start1; i < start1 + n1; ++i) {
-		for (j = start2; j < start2 + n2; ++j) {
-			std::cout << v[i][j] << "   ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
-}
-
-template <class T>
-void NRmatrix<T>::print(int start1, int start2, int n1, int n2, int precision) const
-{
-	int i, j;
-	auto oldPrecision = std::cout.precision();
-	std::cout.precision(precision);
-	for (i = start1; i < start1 + n1; ++i) {
-		for (j = start2; j < start2 + n2; ++j) {
-			std::cout << v[i][j] << "   ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-	std::cout.precision(oldPrecision);
 }
 
 template <class T>
