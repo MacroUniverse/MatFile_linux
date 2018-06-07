@@ -13,11 +13,19 @@ int main()
 
 	// scalars
 	Doub s(3.1415926535897932384626);
+	matsave((Uchar)88, "s8", pfile);
+	matsave((Int)99, "si", pfile);
 	matsave(s, "s", pfile);
 	Complex sc(3.1, 3.2);
 	matsave(sc, "sc", pfile);
 
 	// vectors
+	VecUchar v8(3);
+	v8[0] = 1; v8[1] = 2; v8[2] = 3;
+	matsave(v8, "v8", pfile);
+	VecInt vi(3);
+	vi[0] = 1; vi[1] = 2; vi[2] = 3;
+	matsave(vi, "vi", pfile);
 	VecDoub v(3);
 	v[0] = 1.; v[1] = 2.; v[2] = 3.;
 	matsave(v, "v", pfile);
@@ -27,6 +35,16 @@ int main()
 	matsave(vc, "vc", pfile);
 
 	// matrices
+	MatUchar A8;
+	A8.assign(2, 3, 0);
+	A8[0][0] = 1; A8[0][1] = 3; A8[0][2] = 5.; A8[1][2] = 11;
+	matsave(A8, "A8", pfile);
+
+	MatInt AI;
+	AI.assign(2, 3, 0);
+	AI[0][0] = 1; AI[0][1] = 3; AI[0][2] = 5.; AI[1][2] = 11;
+	matsave(AI, "AI", pfile);
+
 	MatDoub A;
 	A.assign(2, 3, 0.);
 	A[0][0] = 1.; A[0][1] = 3.; A[0][2] = 5.; A[1][2] = 11;

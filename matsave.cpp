@@ -7,6 +7,26 @@ using namespace std;
 
 // matsave()
 
+void matsave(const Uchar s, const std::string &varname, MATFile *pfile)
+{
+	mxArray *ps;
+	ps = mxCreateNumericMatrix(1, 1, mxUINT8_CLASS, mxREAL);
+	Uchar *pps = (Uchar*)mxGetPr(ps);
+	pps[0] = s;
+	matPutVariable(pfile, varname.c_str(), ps);
+	mxDestroyArray(ps);
+}
+
+void matsave(const Int s, const std::string &varname, MATFile *pfile)
+{
+	mxArray *ps;
+	ps = mxCreateNumericMatrix(1, 1, mxINT32_CLASS, mxREAL);
+	Int *pps = (Int*)mxGetPr(ps);
+	pps[0] = s;
+	matPutVariable(pfile, varname.c_str(), ps);
+	mxDestroyArray(ps);
+}
+
 void matsave(const Doub s, const string &varname, MATFile *pfile)
 {
 	mxArray *ps;
@@ -30,15 +50,28 @@ void matsave(const Complex s, const string &varname, MATFile *pfile)
 	mxDestroyArray(pa);
 }
 
+void matsave(VecUchar_I &v, const std::string &varname, MATFile *pfile)
+{
+	Int i, n;
+	mxArray *pv;
+	n = v.size();
+	pv = mxCreateUninitNumericMatrix(1, n, mxUINT8_CLASS, mxREAL);
+	Uchar *ppv = (Uchar*)mxGetPr(pv);
+	for (i = 0; i < n; ++i)
+		ppv[i] = v[i];
+	matPutVariable(pfile, varname.c_str(), pv);
+	mxDestroyArray(pv);
+}
+
 void matsave(VecInt_I &v, const std::string &varname, MATFile *pfile)
 {
 	Int i, n;
 	mxArray *pv;
 	n = v.size();
-	pv = mxCreateDoubleMatrix(1, n, mxREAL);
-	auto ppv = mxGetPr(pv);
+	pv = mxCreateUninitNumericMatrix(1, n, mxINT32_CLASS, mxREAL);
+	Int *ppv = (Int*)mxGetPr(pv);
 	for (i = 0; i < n; ++i)
-		ppv[i] = (Doub)v[i];
+		ppv[i] = v[i];
 	matPutVariable(pfile, varname.c_str(), pv);
 	mxDestroyArray(pv);
 }
@@ -48,7 +81,7 @@ void matsave(VecDoub_I &v, const string &varname, MATFile *pfile)
 	Int i, n;
 	mxArray *pv;
 	n = v.size();
-	pv = mxCreateDoubleMatrix(1, n, mxREAL);
+	pv = mxCreateUninitNumericMatrix(1, n, mxDOUBLE_CLASS, mxREAL);
 	auto ppv = mxGetPr(pv);
 	for (i = 0; i < n; ++i)
 		ppv[i] = v[i];
@@ -62,7 +95,7 @@ void matsave(VecComplex_I &v, const string &varname, MATFile *pfile)
 	string str;
 	mxArray *pv;
 	n = v.size();
-	pv = mxCreateDoubleMatrix(1, n, mxCOMPLEX);
+	pv = mxCreateUninitNumericMatrix(1, n, mxDOUBLE_CLASS, mxCOMPLEX);
 	auto ppvr = mxGetPr(pv);
 	auto ppvi = mxGetPi(pv);
 	for (i = 0; i < n; ++i) {
@@ -73,6 +106,60 @@ void matsave(VecComplex_I &v, const string &varname, MATFile *pfile)
 	mxDestroyArray(pv);
 }
 
+void matsave(MatUchar_I &a, const std::string &varname, MATFile *pfile,
+	const Int step1, const Int step2)
+{
+	Int i, j, m, n;
+	mxArray *pa;
+	if (step1 > 1 || step2 > 1) {
+		m = (a.nrows() + step1 - 1) / step1; n = (a.ncols() + step2 - 1) / step2;
+		pa = mxCreateUninitNumericMatrix(m, n, mxUINT8_CLASS, mxREAL);
+		Uchar *ppa = (Uchar*)mxGetPr(pa);
+		for (i = 0; i < m; ++i)
+			for (j = 0; j < n; ++j) {
+				ppa[i + m * j] = a[step1*i][step2*j];
+			}
+	}
+	else {
+		m = a.nrows(); n = a.ncols();
+		pa = mxCreateUninitNumericMatrix(m, n, mxUINT8_CLASS, mxREAL);
+		Uchar *ppa = (Uchar*)mxGetPr(pa);
+		for (i = 0; i < m; ++i)
+			for (j = 0; j < n; ++j) {
+				ppa[i + m * j] = a[i][j];
+			}
+	}
+	matPutVariable(pfile, varname.c_str(), pa);
+	mxDestroyArray(pa);
+}
+
+void matsave(MatInt_I &a, const std::string &varname, MATFile *pfile,
+	const Int step1, const Int step2)
+{
+	Int i, j, m, n;
+	mxArray *pa;
+	if (step1 > 1 || step2 > 1) {
+		m = (a.nrows() + step1 - 1) / step1; n = (a.ncols() + step2 - 1) / step2;
+		pa = mxCreateUninitNumericMatrix(m, n, mxINT32_CLASS, mxREAL);
+		Int *ppa = (Int*)mxGetPr(pa);
+		for (i = 0; i < m; ++i)
+			for (j = 0; j < n; ++j) {
+				ppa[i + m * j] = a[step1*i][step2*j];
+			}
+	}
+	else {
+		m = a.nrows(); n = a.ncols();
+		pa = mxCreateUninitNumericMatrix(m, n, mxINT32_CLASS, mxREAL);
+		Int *ppa = (Int*)mxGetPr(pa);
+		for (i = 0; i < m; ++i)
+			for (j = 0; j < n; ++j) {
+				ppa[i + m * j] = a[i][j];
+			}
+	}
+	matPutVariable(pfile, varname.c_str(), pa);
+	mxDestroyArray(pa);
+}
+
 void matsave(MatDoub_I &a, const string &varname, MATFile *pfile, 
 			const Int step1, const Int step2)
 {
@@ -80,7 +167,7 @@ void matsave(MatDoub_I &a, const string &varname, MATFile *pfile,
 	mxArray *pa;
 	if (step1 > 1 || step2 > 1) {
 		m = (a.nrows() + step1 - 1) / step1; n = (a.ncols() + step2 - 1) / step2;
-		pa = mxCreateDoubleMatrix(m, n, mxREAL);
+		pa = mxCreateUninitNumericMatrix(m, n, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j) {
@@ -89,7 +176,7 @@ void matsave(MatDoub_I &a, const string &varname, MATFile *pfile,
 	}
 	else {
 		m = a.nrows(); n = a.ncols();
-		pa = mxCreateDoubleMatrix(m, n, mxREAL);
+		pa = mxCreateUninitNumericMatrix(m, n, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j) {
@@ -108,7 +195,7 @@ void matsave(MatComplex_I &a, const string &varname, MATFile *pfile,
 	mxArray *pa;
 	if (step1 > 1 || step2 > 1) {
 		m = (a.nrows() + step1 - 1)/step1; n = (a.ncols() + step2 - 1)/step2;
-		pa = mxCreateDoubleMatrix(m, n, mxCOMPLEX);
+		pa = mxCreateUninitNumericMatrix(m, n, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa);
 		auto ppai = mxGetPi(pa);
 		for (i = 0; i < m; ++i)
@@ -120,7 +207,7 @@ void matsave(MatComplex_I &a, const string &varname, MATFile *pfile,
 	}
 	else {
 		m = a.nrows(); n = a.ncols();
-		pa = mxCreateDoubleMatrix(m, n, mxCOMPLEX);
+		pa = mxCreateUninitNumericMatrix(m, n, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa);
 		auto ppai = mxGetPi(pa);
 		for (i = 0; i < m; ++i)
@@ -144,7 +231,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 		m = (m + step1 - 1) / step1; n = (n + step2 - 1) / step2;
 		q = (q + step3 - 1) / step3;
 		size_t sz[3]{ (size_t)m,(size_t)n,(size_t)q };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j)
@@ -153,7 +240,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 	}
 	else {
 		size_t sz[3]{ (size_t)m,(size_t)n,(size_t)q };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j)
@@ -177,7 +264,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim2() + step1 - 1) / step1; n = (a.dim3() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (i = 0; i < Nslice; ++i) {
 			ind = slice[i];
@@ -190,7 +277,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim3() + step1 - 1) / step1; n = (a.dim1() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (j = 0; j < Nslice; ++j) {
 			ind = slice[j];
@@ -203,7 +290,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim1() + step1 - 1) / step1; n = (a.dim2() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxREAL);
 		auto ppa = mxGetPr(pa);
 		for (k = 0; k < Nslice; ++k) {
 			ind = slice[k];
@@ -230,7 +317,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 		m = (m + step1 - 1) / step1; n = (n + step2 - 1) / step2;
 		q = (q + step3 - 1) / step3;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)q };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa); auto ppai = mxGetPi(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j)
@@ -242,7 +329,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 	}
 	else {
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)q };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa); auto ppai = mxGetPi(pa);
 		for (i = 0; i < m; ++i)
 			for (j = 0; j < n; ++j)
@@ -270,7 +357,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim2() + step1 - 1) / step1; n = (a.dim3() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa); auto ppai = mxGetPi(pa);
 		for (i = 0; i < Nslice; ++i) {
 			ind = slice[i];
@@ -286,7 +373,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim3() + step1 - 1) / step1; n = (a.dim1() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa); auto ppai = mxGetPi(pa);
 		for (j = 0; j < Nslice; ++j) {
 			ind = slice[j];
@@ -302,7 +389,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 		Int ind;
 		m = (a.dim1() + step1 - 1) / step1; n = (a.dim2() + step2 - 1) / step2; mn = m * n;
 		size_t sz[3]{ (size_t)m, (size_t)n, (size_t)Nslice };
-		pa = mxCreateNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
+		pa = mxCreateUninitNumericArray(3, sz, mxDOUBLE_CLASS, mxCOMPLEX);
 		auto ppar = mxGetPr(pa); auto ppai = mxGetPi(pa);
 		for (k = 0; k < Nslice; ++k) {
 			ind = slice[k];
@@ -398,6 +485,19 @@ void matload(VecComplex_O &v, const string &varname, MATFile *pfile)
 	mxDestroyArray(pv);
 }
 
+void matload(MatInt_O &a, const std::string &varname, MATFile *pfile)
+{
+	Int i, j, m, n;
+	mxArray *pa = matGetVariable(pfile, varname.c_str());
+	const mwSize *sz = mxGetDimensions(pa);
+	m = (Int)sz[0]; n = (Int)sz[1];
+	a.resize(m, n);
+	auto ppa = mxGetPr(pa);
+	for (i = 0; i < m; ++i)
+		for (j = 0; j < n; ++j)
+			a[i][j] = (Int)ppa[m*j + i];
+	mxDestroyArray(pa);
+}
 
 void matload(MatDoub_O &a, const string &varname, MATFile *pfile)
 {
@@ -405,7 +505,7 @@ void matload(MatDoub_O &a, const string &varname, MATFile *pfile)
 	mxArray *pa = matGetVariable(pfile, varname.c_str());
 	const mwSize *sz = mxGetDimensions(pa);
 	m = (Int)sz[0]; n = (Int)sz[1];
-	if (a.nrows() != m || a.ncols() != n) a.resize(m, n);
+	a.resize(m, n);
 	auto ppa = mxGetPr(pa);
 	for (i = 0; i < m; ++i)
 		for (j = 0; j < n; ++j)
