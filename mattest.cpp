@@ -1,5 +1,4 @@
 #include <iostream>
-#include "mat.h"
 #include "nr3.h"
 #include "nr3plus.h"
 #include "matsave.h"
@@ -102,41 +101,43 @@ int main()
 	// read test
 
 	// scalars
-	pfile = matOpen("nrMat.mat", "r");
-	s = 0.;
-	matload(s, "s", pfile);
-	cout.precision(16);
-	cout << s << endl;
+	//pfile = matOpen("nrMat.mat", "r");
+	//s = 0.;
+	//matload(s, "s", pfile);
+	//cout.precision(16);
+	//cout << s << endl;
 
-	sc = 0.;
-	matload(sc, "sc", pfile);
-	cout << sc << endl;
+	//sc = 0.;
+	//matload(sc, "sc", pfile);
+	//cout << sc << endl;
 
-	// vectors
-	v.resize(0);
-	matload(v, "v", pfile);
-	disp(v, 16);
+	//// vectors
+	//v.resize(0);
+	//matload(v, "v", pfile);
+	//disp(v, 16);
 
-	vc.resize(0);
-	matload(vc, "vc", pfile);
-	disp(vc, 16);
+	//vc.resize(0);
+	//matload(vc, "vc", pfile);
+	//disp(vc, 16);
 
-	// matrices
-	A.resize(0, 0);
-	matload(A, "A", pfile);
-	disp(A, 16);
+	//// matrices
+	//A.resize(0, 0);
+	//matload(A, "A", pfile);
+	//disp(A, 16);
 
-	C.resize(0, 0);
-	matload(C, "C", pfile);
-	disp(C, 16);
+	//C.resize(0, 0);
+	//matload(C, "C", pfile);
+	//disp(C, 16);
 
-	// 3D arrays
-	A3.resize(0, 0, 0);
-	matload(A3, "A3", pfile);
+	//// 3D arrays
+	//A3.resize(0, 0, 0);
+	//matload(A3, "A3", pfile);
 
-	C3.resize(0, 0, 0);
-	matload(C3, "C3", pfile);
+	//C3.resize(0, 0, 0);
+	//matload(C3, "C3", pfile);
 
-	matClose(pfile);
+	//matClose(pfile);
+
+
 }
 

@@ -2,7 +2,17 @@
 
 #pragma once
 #include "nr3.h"
+
+#ifdef MATFILE_BINARY
 #include "mat.h"
+#else
+typedef std::ofstream MATFile;
+
+MATFile *matOpen(std::string fname, std::string rw);
+
+void matClose(MATFile *pfile);
+
+#endif
 
 // matsave()
 
