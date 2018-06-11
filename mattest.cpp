@@ -48,7 +48,7 @@ int main()
 	A.assign(2, 3, 0.);
 	A[0][0] = 1.; A[0][1] = 3.; A[0][2] = 5.; A[1][2] = 11;
 	matsave(A, "A", pfile);
-	
+
 	MatComplex C(3, 3);
 	Complex *pC{ &C[0][0] };
 	for (Int i = 0; i < 9; ++i) {
@@ -69,7 +69,7 @@ int main()
 	}
 	matsave(C, "Csample", pfile, 2, 3);
 
-	// 3d arrays
+	//// 3d arrays
 	Mat3DDoub A3;
 	A3.resize(2, 2, 2);
 	Doub *pA3 = A3[0][0];
@@ -137,7 +137,5 @@ int main()
 	//matload(C3, "C3", pfile);
 
 	//matClose(pfile);
-
-
 }
 
