@@ -1047,4 +1047,4 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 //fin.ignore(1000, '\n');
 //fin.close();
 
-#endif /* MATFILE_MATT */
+#endif /*#ifdef MATFILE_BINARY*/

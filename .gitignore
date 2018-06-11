@@ -2,5 +2,6 @@
 *.x
 *.gch
 *.mat
+*.matt
 *.m
 *.asv

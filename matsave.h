@@ -15,8 +15,9 @@
 
 #pragma once
 //#define MATFILE_BINARY
-#define MATFILE_MATT
-#define MATFILE_PRECISION 5
+#ifndef MATFILE_PRECISION
+#define MATFILE_PRECISION 16
+#endif
 #include "nr3.h"
 
 #ifdef MATFILE_BINARY

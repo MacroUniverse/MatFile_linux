@@ -3,14 +3,17 @@
 exe = mattest.x
 
 #========  settings for MatFile ====================
-ifeq (1,1)
+ifeq (1,2)
+	# binary mode
 	MatPath = ../MatFile_linux/
-	MatSource = -D MATFILE_BINARY $(MatPath)matsave.cpp
-	MatObject = matsave.o -I $(MatPath) -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
+	MatCompile = $(MatPath)matsave.cpp -D MATFILE_BINARY 
+	MatLink = matsave.o -I $(MatPath) -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
 else
+	# text mode
+	MatPrecision = 2
 	MatPath = ../MatFile_linux/
-	MatSource = $(MatPath)matsave.cpp
-	MatObject = matsave.o  -I $(MatPath)
+	MatCompile = $(MatPath)matsave.cpp -DMATFILE_PRECISION=$(MatPrecision)
+	MatLink =  matsave.o  -I $(MatPath) 
 endif
 #=================================================
 
@@ -23,11 +26,11 @@ flags = -O3 -std=c++11
 # -g -O3 -fopenmp
 
 $(exe):$(objects)
-	$(compiler) -o $(exe) $(flags) $(objects) $(MatObject)
+	$(compiler) -o $(exe) $(flags) $(objects) $(MatLink)
 
 $(objects):$(source)
-	$(compiler) -c $(flags) $(source) $(MatSource)
+	$(compiler) -c $(flags) $(source) $(MatCompile)
 
 clean:
-	rm -f *.o *.x *.gch *.mat
+	rm -f *.o *.x *.gch *.mat *.matt
 
