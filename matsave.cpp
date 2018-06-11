@@ -580,7 +580,7 @@ void matload(Mat3DComplex_O &a, const std::string &varname, MATFile *pfile)
 // change extension from ".mat" to
 MATFile *matOpen(std::string fname, std::string rw)
 {
-	Int i, N = fname.size();
+	Int N = (Int)fname.size();
 	fname += "t";
 	MATFile* pfile = new ofstream;
 	*pfile = ofstream(fname);
@@ -600,7 +600,7 @@ void matsave(const Uchar s, const std::string &varname, MATFile *pfile)
 {
 	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -617,7 +617,7 @@ void matsave(const Int s, const std::string &varname, MATFile *pfile)
 {
 	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -634,7 +634,7 @@ void matsave(const Doub s, const std::string &varname, MATFile *pfile)
 {
 	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -651,7 +651,7 @@ void matsave(const Complex s, const std::string &varname, MATFile *pfile)
 {
 	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -669,9 +669,9 @@ void matsave(const Complex s, const std::string &varname, MATFile *pfile)
 
 void matsave(VecUchar_I &v, const std::string &varname, MATFile *pfile)
 {
-	Int i, j, n;
+	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -689,9 +689,9 @@ void matsave(VecUchar_I &v, const std::string &varname, MATFile *pfile)
 
 void matsave(VecInt_I &v, const std::string &varname, MATFile *pfile)
 {
-	Int i, j, n;
+	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -709,9 +709,9 @@ void matsave(VecInt_I &v, const std::string &varname, MATFile *pfile)
 
 void matsave(VecDoub_I &v, const std::string &varname, MATFile *pfile)
 {
-	Int i, j, n;
+	Int i, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -729,10 +729,10 @@ void matsave(VecDoub_I &v, const std::string &varname, MATFile *pfile)
 
 void matsave(VecComplex_I &v, const std::string &varname, MATFile *pfile)
 {
-	Int i, j, n;
+	Int i, n;
 	Doub cr, ci;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -757,7 +757,7 @@ void matsave(MatUchar_I &a, const string &varname, MATFile *pfile,
 {
 	Int i, j, m, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -779,7 +779,7 @@ void matsave(MatInt_I &a, const string &varname, MATFile *pfile,
 {
 	Int i, j, m, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -801,7 +801,7 @@ void matsave(MatDoub_I &a, const string &varname, MATFile *pfile,
 {
 	Int i, j, m, n;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -824,7 +824,7 @@ void matsave(MatComplex_I &a, const string &varname, MATFile *pfile,
 	Int i, j, m, n;
 	Complex c; Doub cr, ci;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -848,9 +848,9 @@ void matsave(MatComplex_I &a, const string &varname, MATFile *pfile,
 void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 	const Int step1, const Int step2, const Int step3)
 {
-	Int i, j, k, m, n, q, mn;
+	Int i, j, k, m, n, q;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -877,7 +877,7 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 {
 	Int i, j, k, m, n, ind, Nslice{ slice.size() };
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -928,10 +928,10 @@ void matsave(Mat3DDoub_I &a, const std::string &varname, MATFile *pfile,
 void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 	const Int step1, const Int step2, const Int step3)
 {
-	Int i, j, k, m, n, q, mn;
+	Int i, j, k, m, n, q;
 	Complex c; Doub cr, ci;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';
@@ -964,7 +964,7 @@ void matsave(Mat3DComplex_I &a, const std::string &varname, MATFile *pfile,
 	Int i, j, k, m, n, ind, Nslice{ slice.size() };
 	Complex c; Doub cr, ci;
 	// write variable name info
-	n = varname.size();
+	n = (Int)varname.size();
 	*pfile << n << '\n';
 	for (i = 0; i < n; ++i) {
 		*pfile << (Int)varname.at(i) << '\n';

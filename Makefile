@@ -4,21 +4,18 @@ exe = mattest.x
 
 #========  settings for MatFile ====================
 ifeq (1,2)
-	# binary mode
-	MatPath = ../MatFile_linux/
-	MatCompile = $(MatPath)matsave.cpp -D MATFILE_BINARY 
-	MatLink = matsave.o -I $(MatPath) -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
+    # binary mode
+    MatPath = ../MatFile_linux/
+    MatCompile = -I $(MatPath) -D MATFILE_BINARY 
+    MatLink = -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
 else
-	# text mode
-	MatPrecision = 2
-	MatPath = ../MatFile_linux/
-	MatCompile = $(MatPath)matsave.cpp -DMATFILE_PRECISION=$(MatPrecision)
-	MatLink =  matsave.o  -I $(MatPath) 
+    # text mode
+    MatCompile = -D MATFILE_PRECISION=8
 endif
 #=================================================
 
 
-source = mattest.cpp nr3plus.cpp
+source = mattest.cpp nr3plus.cpp matsave.cpp
 objects = $(source:.cpp=.o)
 compiler = g++
 

@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	MATFile *pfile = matOpen("nrMat.mat", "w");
+	MATFile *pfile = matOpen("nr.mat", "w");
 	Complex I(0, 1);
 
 	// scalars
@@ -36,17 +36,17 @@ int main()
 	// matrices
 	MatUchar A8;
 	A8.assign(2, 3, 0);
-	A8[0][0] = 1; A8[0][1] = 3; A8[0][2] = 5.; A8[1][2] = 11;
+	A8[0][0] = 1; A8[0][1] = 3; A8[0][2] = 5; A8[1][2] = 11;
 	matsave(A8, "A8", pfile);
 
 	MatInt AI;
 	AI.assign(2, 3, 0);
-	AI[0][0] = 1; AI[0][1] = 3; AI[0][2] = 5.; AI[1][2] = 11;
+	AI[0][0] = 1; AI[0][1] = 3; AI[0][2] = 5; AI[1][2] = 11;
 	matsave(AI, "AI", pfile);
 
 	MatDoub A;
 	A.assign(2, 3, 0.);
-	A[0][0] = 1.; A[0][1] = 3.; A[0][2] = 5.; A[1][2] = 11;
+	A[0][0] = 1; A[0][1] = 3; A[0][2] = 5; A[1][2] = 11;
 	matsave(A, "A", pfile);
 
 	MatComplex C(3, 3);
