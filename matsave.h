@@ -1,17 +1,6 @@
-// save vectors and matrices defined in "nr3.h"
-//
-// ==========   1. Binary Mode ==================
-// define MATFILE_BINARY in this file or the compiler to save to ".mat" file for Matlab
-// in this case, directories and library path must be set for the compiler.
-// use matsave(*, <varname>.mat, *) to save
-//
-// ==========   2. Text Mode ===================
-// save data to text file with extension ".matt", totally compatible with binary mode
-// use "matread(<filename>)" matlab function to read ".matt" file, just like load();
-// in this case, only need to include "matsave.h", "matsave.cpp" and "nr3.h".
-// use matsave(*, <varname>.mat, *) to save, don't use <varname>.matt
-// define macro MATFILE_PRECISION and set a value to change output precision
-// one number class code: Doub=0, Complex=1, Int=2, Uchar=3.
+// save vectors and matrices defined in "nr3.h" to ".mat" or ".matt" files.
+// see README.txt for details
+// class types: Doub=0, Complex=1, Int=2, Uchar=3.
 
 #pragma once
 //#define MATFILE_BINARY
@@ -20,6 +9,7 @@
 #ifndef MATFILE_PRECISION
 #define MATFILE_PRECISION 16
 #endif
+
 #include <algorithm>
 #include "nr3.h"
 
@@ -44,8 +34,6 @@ MATTFile *mattOpen(std::string fname, const Char *rw);
 
 void mattClose(MATTFile *pfile);
 #endif
-
-
 
 #if !(defined(MATFILE_BINARY) || defined(MATFILE_DUAL))
 typedef MATTFile MATFile;
@@ -197,9 +185,8 @@ void mattload(MatComplex_O &a, const std::string &varname, MATTFile *pfile);
 void mattload(Mat3DDoub_O &a, const std::string &varname, MATTFile *pfile);
 
 void mattload(Mat3DComplex_O &a, const std::string &varname, MATTFile *pfile);
-#endif
 
-#ifdef MATFILE_DUAL
 void mat2matt(const std::string &fmat, const std::string &fmatt);
+
 void matt2mat(const std::string &fmatt, const std::string &fmat);
 #endif
