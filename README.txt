@@ -20,18 +20,16 @@ Matfile_linux project and Matfile_win64 project are considered the same project.
 * Alternatively, use VS property sheet "matfile.props" to import properties (does not include step 3 above). And then either use step 3 or 4 above.
 and the program should run successfully.
 
-
-
-
 ===============  Text Mode ==============
-If neither MATFILE_BINARY nor MATFILE_DUAL macro is defined, the program uses text mode. You can also set MATFILE_PRECISION to define the precision.
-The available functions are "matOpen(), matClose(), matsave() matload()".
-Type checking is not strict, as long as no accuracy is lost. For example, Uchar can be loaded as Int or Doub or Complex, Int can be loaded as Doub or Complex but not Uchar, Double can be loaded as Complex, etc. Complex can not be loaded as double even if all imaginary parts are 0.
+* First, when using Git, it is best to set "*.matt" as binary (create .gitattribute file for the repo, add "*.matt binary"). This will prevent git from diffing "*.matt" files and most importantly, from doing autocrlf.
+* If neither MATFILE_BINARY nor MATFILE_DUAL macro is defined, the program uses text mode. You can also set MATFILE_PRECISION to define the precision.
+* The available functions are "matOpen(), matClose(), matsave() matload()".
+* Type checking is not strict, as long as no accuracy is lost. For example, Uchar can be loaded as Int or Doub or Complex, Int can be loaded as Doub or Complex but not Uchar, Double can be loaded as Complex, etc. Complex can not be loaded as double even if all imaginary parts are 0.
 
 =============== Binary Mode ==============
-If MATFILE_BINARY is defined, then the program uses binary mode.
-The available functions are "matOpen(), matClose(), matsave() matload()".
-For simplicy of the code, type checking is as strict as possible for matload() functions, any type unmatch will result in an error. However, you can load double data to complex types, or load complex dat to double types when all imaginary parts are zero.
+* If MATFILE_BINARY is defined, then the program uses binary mode.
+* The available functions are "matOpen(), matClose(), matsave() matload()".
+* For simplicy of the code, type checking is as strict as possible for matload() functions, any type unmatch will result in an error. However, you can load double data to complex types, or load complex dat to double types when all imaginary parts are zero.
 
 
 =============== Dual Mode ================
