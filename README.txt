@@ -21,8 +21,8 @@ Matfile_linux project and Matfile_win64 project are considered the same project.
 and the program should run successfully.
 
 ===============  Text Mode ==============
-* First, when using Git, it is best to set "*.matt" as binary (create .gitattribute file for the repo, add "*.matt binary"). This will prevent git from diffing "*.matt" files and most importantly, from doing autocrlf.
-* If neither MATFILE_BINARY nor MATFILE_DUAL macro is defined, the program uses text mode. You can also set MATFILE_PRECISION to define the precision.
+* First, when using Git, it is best to set "*.matt" as binary (create .gitattribute file for the repo, add "*.matt binary"). This will prevent git from diffing "*.matt" files and most importantly, from doing autocrlf. It's also recommanded to add "*.matt binary" to "~/.config/git/attributes" to make this setting global.
+* If neither MATFILE_BINARY nor MATFILE_DUAL macro is defined, the program uses text mode. You can also set MATFILE_PRECISION to define the writing precision, note that the reading precision is not affected by MATFILE_PRECISION and is always as accurate as possible.
 * The available functions are "matOpen(), matClose(), matsave() matload()".
 * Type checking is not strict, as long as no accuracy is lost. For example, Uchar can be loaded as Int or Doub or Complex, Int can be loaded as Doub or Complex but not Uchar, Double can be loaded as Complex, etc. Complex can not be loaded as double even if all imaginary parts are 0.
 
