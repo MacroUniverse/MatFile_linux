@@ -1,16 +1,22 @@
 # include "nr3plus.h"
-using std::cout; using std::endl;
+using std::cout; using std::endl; using std::vector;
 
 // display scalar, vector, or matrix
 // not using template (or functions will not be available during debug)
 
 // version 1
 
+std::chrono::steady_clock::time_point tic_time_start; // for tic() toc()
+vector<std::chrono::steady_clock::time_point> tic_time_starts(20);
+
 void disp(VecUchar_I &v)
 {
-	int i, n{ v.size() }, precision = 4;
+	Long i, n{ v.size() };
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << (Int)v[i] << "   ";
 	}
@@ -20,9 +26,12 @@ void disp(VecUchar_I &v)
 
 void disp(VecInt_I &v)
 {
-	int i, n{ v.size() }, precision = 4;
+	Long i, n{ v.size() };
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -32,9 +41,12 @@ void disp(VecInt_I &v)
 
 void disp(VecDoub_I &v)
 {
-	int i, n{ v.size() }, precision = 4;
+	Long i, n{ v.size() };
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -42,11 +54,14 @@ void disp(VecDoub_I &v)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecComplex_I &v)
+void disp(VecComp_I &v)
 {
-	int i, n{ v.size() }, precision = 4;
+	Long i, n{ v.size() };
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -56,9 +71,12 @@ void disp(VecComplex_I &v)
 
 void disp(MatUchar_I &a)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() }, precision{ 4 };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << (Int)a[i][j] << "   ";
@@ -71,9 +89,12 @@ void disp(MatUchar_I &a)
 
 void disp(MatInt_I &a)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() }, precision{ 4 };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -86,9 +107,12 @@ void disp(MatInt_I &a)
 
 void disp(MatDoub_I &a)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() }, precision{ 4 };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -99,11 +123,14 @@ void disp(MatDoub_I &a)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatComplex_I &a)
+void disp(MatComp_I &a)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() }, precision{ 4 };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -114,11 +141,14 @@ void disp(MatComplex_I &a)
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DDoub_I &a)
+void disp(Mat3Doub_I &a)
 {
-	int i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() }, precision{ 4 };
+	Long i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = 0; k < q; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = 0; i < m; ++i) {
@@ -132,11 +162,14 @@ void disp(Mat3DDoub_I &a)
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DComplex_I &a)
+void disp(Mat3Comp_I &a)
 {
-	int i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() }, precision{ 4 };
+	Long i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = 0; k < q; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = 0; i < m; ++i) {
@@ -152,11 +185,13 @@ void disp(Mat3DComplex_I &a)
 
 // version 2
 
-void disp(VecUchar_I &v, const int precision)
+void disp(VecUchar_I &v, Int_I precision)
 {
-	int i, n{ v.size() };
+	Long i, n{ v.size() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << (Int)v[i] << "   ";
 	}
@@ -164,11 +199,13 @@ void disp(VecUchar_I &v, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecInt_I &v, const int precision)
+void disp(VecInt_I &v, Int_I precision)
 {
-	int i, n{ v.size() };
+	Long i, n{ v.size() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -176,11 +213,13 @@ void disp(VecInt_I &v, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecDoub_I &v, const int precision)
+void disp(VecDoub_I &v, Int_I precision)
 {
-	int i, n{ v.size() };
+	Long i, n{ v.size() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -188,11 +227,13 @@ void disp(VecDoub_I &v, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecComplex_I &v, const int precision)
+void disp(VecComp_I &v, Int_I precision)
 {
-	int i, n{ v.size() };
+	Long i, n{ v.size() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = 0; i < n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -200,11 +241,13 @@ void disp(VecComplex_I &v, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatUchar_I &a, const int precision)
+void disp(MatUchar_I &a, Int_I precision)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << (Int)a[i][j] << "   ";
@@ -215,11 +258,13 @@ void disp(MatUchar_I &a, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatInt_I &a, const int precision)
+void disp(MatInt_I &a, Int_I precision)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -230,11 +275,13 @@ void disp(MatInt_I &a, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatDoub_I &a, const int precision)
+void disp(MatDoub_I &a, Int_I precision)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -245,11 +292,13 @@ void disp(MatDoub_I &a, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatComplex_I &a, const int precision)
+void disp(MatComp_I &a, Int_I precision)
 {
-	int i, j, m{ a.nrows() }, n{ a.ncols() };
+	Long i, j, m{ a.nrows() }, n{ a.ncols() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = 0; i < m; ++i) {
 		for (j = 0; j < n; ++j) {
 			cout << a[i][j] << "   ";
@@ -260,11 +309,13 @@ void disp(MatComplex_I &a, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DDoub_I &a, const int precision)
+void disp(Mat3Doub_I &a, Int_I precision)
 {
-	int i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
+	Long i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = 0; k < q; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = 0; i < m; ++i) {
@@ -278,11 +329,13 @@ void disp(Mat3DDoub_I &a, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DComplex_I &a, const int precision)
+void disp(Mat3Comp_I &a, Int_I precision)
 {
-	int i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
+	Long i, j, k, m{ a.dim1() }, n{ a.dim2() }, q{ a.dim3() };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = 0; k < q; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = 0; i < m; ++i) {
@@ -298,11 +351,14 @@ void disp(Mat3DComplex_I &a, const int precision)
 
 // version 3
 
-void disp(VecUchar_I &v, const int start, const int n)
+void disp(VecUchar_I &v, Long_I start, Long_I n)
 {
-	int i, precision = 4;
+	Long i;
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << (Int)v[i] << "   ";
 	}
@@ -310,11 +366,14 @@ void disp(VecUchar_I &v, const int start, const int n)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecInt_I &v, const int start, const int n)
+void disp(VecInt_I &v, Long_I start, Long_I n)
 {
-	int i, precision = 4;
+	Long i;
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -322,11 +381,14 @@ void disp(VecInt_I &v, const int start, const int n)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecDoub_I &v, const int start, const int n)
+void disp(VecDoub_I &v, Long_I start, Long_I n)
 {
-	int i, precision = 4;
+	Long i;
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -334,11 +396,14 @@ void disp(VecDoub_I &v, const int start, const int n)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecComplex_I &v, const int start, const int n)
+void disp(VecComp_I &v, Long_I start, Long_I n)
 {
-	int i, precision = 4;
+	Long i;
+	Int precision = 4;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -346,11 +411,14 @@ void disp(VecComplex_I &v, const int start, const int n)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatUchar_I &a, const int start1, const int start2, const int n1, const int n2)
+void disp(MatUchar_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2)
 {
-	int i, j, precision{ 4 };
+	Long i, j;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << (Int)a[i][j] << "   ";
@@ -361,11 +429,14 @@ void disp(MatUchar_I &a, const int start1, const int start2, const int n1, const
 	cout.precision(oldPrecision);
 }
 
-void disp(MatInt_I &a, const int start1, const int start2, const int n1, const int n2)
+void disp(MatInt_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2)
 {
-	int i, j, precision{ 4 };
+	Long i, j;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -376,11 +447,14 @@ void disp(MatInt_I &a, const int start1, const int start2, const int n1, const i
 	cout.precision(oldPrecision);
 }
 
-void disp(MatDoub_I &a, const int start1, const int start2, const int n1, const int n2)
+void disp(MatDoub_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2)
 {
-	int i, j, precision{ 4 };
+	Long i, j;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -391,11 +465,14 @@ void disp(MatDoub_I &a, const int start1, const int start2, const int n1, const 
 	cout.precision(oldPrecision);
 }
 
-void disp(MatComplex_I &a, const int start1, const int start2, const int n1, const int n2)
+void disp(MatComp_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2)
 {
-	int i, j, precision{ 4 };
+	Long i, j;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -406,11 +483,14 @@ void disp(MatComplex_I &a, const int start1, const int start2, const int n1, con
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DDoub_I &a, const int start1, const int start2, const int start3, const int n1, const int n2, const int n3)
+void disp(Mat3Doub_I &a, Long_I start1, Long_I start2, Long_I start3, Long_I n1, Long_I n2, Long_I n3)
 {
-	int i, j, k, precision{ 4 };
+	Long i, j, k;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = start3; k < start3+n3; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = start1; i < start1+n1; ++i) {
@@ -424,11 +504,14 @@ void disp(Mat3DDoub_I &a, const int start1, const int start2, const int start3, 
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DComplex_I &a, const int start1, const int start2, const int start3, const int n1, const int n2, const int n3)
+void disp(Mat3Comp_I &a, Long_I start1, Long_I start2, Long_I start3, Long_I n1, Long_I n2, Long_I n3)
 {
-	int i, j, k, precision{ 4 };
+	Long i, j, k;
+	Int precision{ 4 };
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = start3; k < start3 + n3; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = start1; i < start1 + n1; ++i) {
@@ -444,11 +527,13 @@ void disp(Mat3DComplex_I &a, const int start1, const int start2, const int start
 
 // version 4
 
-void disp(VecUchar_I &v, const int start, const int n, const int precision)
+void disp(VecUchar_I &v, Long_I start, Long_I n, Int_I precision)
 {
-	int i;
+	Long i;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << (Int)v[i] << "   ";
 	}
@@ -456,11 +541,13 @@ void disp(VecUchar_I &v, const int start, const int n, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecInt_I &v, const int start, const int n, const int precision)
+void disp(VecInt_I &v, Long_I start, Long_I n, Int_I precision)
 {
-	int i;
+	Long i;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -468,11 +555,13 @@ void disp(VecInt_I &v, const int start, const int n, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecDoub_I &v, const int start, const int n, const int precision)
+void disp(VecDoub_I &v, Long_I start, Long_I n, Int_I precision)
 {
-	int i;
+	Long i;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -480,11 +569,13 @@ void disp(VecDoub_I &v, const int start, const int n, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(VecComplex_I &v, const int start, const int n, const int precision)
+void disp(VecComp_I &v, Long_I start, Long_I n, Int_I precision)
 {
-	int i;
+	Long i;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(v) == 0) cout << "empty";
+	else
 	for (i = start; i < start + n; ++i) {
 		cout << v[i] << "   ";
 	}
@@ -492,11 +583,13 @@ void disp(VecComplex_I &v, const int start, const int n, const int precision)
 	cout.precision(oldPrecision);
 }
 
-void disp(MatUchar_I &a, const int start1, const int start2, const int n1, const int n2, const int precision)
+void disp(MatUchar_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2, Int_I precision)
 {
-	int i, j;
+	Long i, j;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << (Int)a[i][j] << "   ";
@@ -507,11 +600,13 @@ void disp(MatUchar_I &a, const int start1, const int start2, const int n1, const
 	cout.precision(oldPrecision);
 }
 
-void disp(MatInt_I &a, const int start1, const int start2, const int n1, const int n2, const int precision)
+void disp(MatInt_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2, Int_I precision)
 {
-	int i, j;
+	Long i, j;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -522,11 +617,13 @@ void disp(MatInt_I &a, const int start1, const int start2, const int n1, const i
 	cout.precision(oldPrecision);
 }
 
-void disp(MatDoub_I &a, const int start1, const int start2, const int n1, const int n2, const int precision)
+void disp(MatDoub_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2, Int_I precision)
 {
-	int i, j;
+	Long i, j;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -537,11 +634,13 @@ void disp(MatDoub_I &a, const int start1, const int start2, const int n1, const 
 	cout.precision(oldPrecision);
 }
 
-void disp(MatComplex_I &a, const int start1, const int start2, const int n1, const int n2, const int precision)
+void disp(MatComp_I &a, Long_I start1, Long_I start2, Long_I n1, Long_I n2, Int_I precision)
 {
-	int i, j;
+	Long i, j;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (i = start1; i < start1 + n1; ++i) {
 		for (j = start2; j < start2 + n2; ++j) {
 			cout << a[i][j] << "   ";
@@ -552,11 +651,13 @@ void disp(MatComplex_I &a, const int start1, const int start2, const int n1, con
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DDoub_I &a, const int start1, const int start2, const int start3, const int n1, const int n2, const int n3, const int precision)
+void disp(Mat3Doub_I &a, Long_I start1, Long_I start2, Long_I start3, Long_I n1, Long_I n2, Long_I n3, Int_I precision)
 {
-	int i, j, k;
+	Long i, j, k;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = start3; k < start3 + n3; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = start1; i < start1 + n1; ++i) {
@@ -570,11 +671,13 @@ void disp(Mat3DDoub_I &a, const int start1, const int start2, const int start3, 
 	cout.precision(oldPrecision);
 }
 
-void disp(Mat3DComplex_I &a, const int start1, const int start2, const int start3, const int n1, const int n2, const int n3, const int precision)
+void disp(Mat3Comp_I &a, Long_I start1, Long_I start2, Long_I start3, Long_I n1, Long_I n2, Long_I n3, Int_I precision)
 {
-	int i, j, k;
+	Long i, j, k;
 	auto oldPrecision = cout.precision();
 	cout.precision(precision);
+	if (numel(a) == 0) cout << "empty";
+	else
 	for (k = start3; k < start3 + n3; ++k) {
 		cout << "(:, :, " << k << ")" << endl;
 		for (i = start1; i < start1 + n1; ++i) {
@@ -586,4 +689,44 @@ void disp(Mat3DComplex_I &a, const int start1, const int start2, const int start
 		cout << endl;
 	}
 	cout.precision(oldPrecision);
+}
+
+void dft(MatComp_O &Y, Doub kmin, Doub kmax, Long_I Nk, MatComp_I &X, Doub xmin, Doub xmax)
+{
+	Long i, j, k, Nx = X.nrows(), Nc = X.ncols();
+	Doub dk = (kmax-kmin)/(Nk-1), dx = (xmax-xmin)/(Nx-1);
+	const Comp *pxi;
+	Comp *pyj, factor, expo, dexpo;
+	Y.resize(Nk, Nc); Y = 0.;
+	for (j = 0; j < Nk; ++j) {
+		pyj = Y[j];
+		expo = exp(Comp(0, -(kmin + dk*j)*(xmin-dx)));
+		dexpo = exp(Comp(0, -(kmin + dk*j)*dx));
+		for (i = 0; i < Nx; ++i) {
+			pxi = X[i];
+			expo *= dexpo;
+			for (k = 0; k < Nc; ++k)
+				pyj[k] += expo*pxi[k];
+		}
+	}
+}
+
+void idft(MatComp_O &X, Doub xmin, Doub xmax, Long_I Nx, MatComp_I &Y, Doub kmin, Doub kmax)
+{
+	Long i, j, k, Nk = Y.nrows(), Nc = Y.ncols();
+	Doub dk = (kmax-kmin)/(Nk-1), dx = (xmax-xmin)/(Nx-1);
+	const Comp *pyi;
+	Comp *pxj, factor, expo, dexpo;
+	X.resize(Nx, Nc); X = 0.;
+	for (j = 0; j < Nx; ++j) {
+		pxj = X[j];
+		expo = exp(Comp(0, (xmin + dx*j)*(kmin-dk)));
+		dexpo = exp(Comp(0, (xmin + dx*j)*dk));
+		for (i = 0; i < Nk; ++i) {
+			pyi = Y[i];
+			expo *= dexpo;
+			for (k = 0; k < Nc; ++k)
+				pxj[k] += expo*pyi[k];
+		}
+	}
 }

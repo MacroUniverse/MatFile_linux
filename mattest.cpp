@@ -11,7 +11,7 @@ int main()
 {
 	
 	// TODO: write 2 conversion functions for any file
-	//mat2matt()
+	//mat2matt("waveInit.mat", "waveInit.matt");
 	//matt2mat()
 
 	// convert waveInit.mat
@@ -40,6 +40,7 @@ int main()
 	mattsave(Psi, "Psi", pmattfile);
 	mattClose(pmattfile);*/
 	
+	cout.precision(17);
 	MATFile *pfmat = matOpen("nr.mat", "w");
 	MATTFile *pfmatt = mattOpen("nr.matt", "w");
 
@@ -54,7 +55,7 @@ int main()
 	matsave(s, "s", pfmat);
 	mattsave(s, "s", pfmatt);
 
-	Complex sc(3.1, -3.2);
+	Comp sc(3.1, -3.2);
 	matsave(sc, "sc", pfmat);
 	mattsave(sc, "sc", pfmatt);
 
@@ -71,33 +72,33 @@ int main()
 	v[0] = 1.; v[1] = 2.; v[2] = 3.;
 	matsave(v, "v", pfmat);
 	mattsave(v, "v", pfmatt);
-	VecComplex vc(3);
+	VecComp vc(3);
 	for (Int i = 0; i < 3; ++i)
 		vc[i] = 1 + (Doub)i - I * (Doub)i;
 	matsave(vc, "vc", pfmat);
 	mattsave(vc, "vc", pfmatt);
 
 	// matrices
-	MatUchar A8;
-	A8.assign(2, 3, 0);
+	MatUchar A8(2, 3);
+	A8 = 0;
 	A8[0][0] = 1; A8[0][1] = 3; A8[0][2] = 5; A8[1][2] = 11;
 	matsave(A8, "A8", pfmat);
 	mattsave(A8, "A8", pfmatt);
 
-	MatInt AI;
-	AI.assign(2, 3, 0);
+	MatInt AI(2, 3);
+	AI = 0;
 	AI[0][0] = 1; AI[0][1] = 3; AI[0][2] = 5; AI[1][2] = 11;
 	matsave(AI, "AI", pfmat);
 	mattsave(AI, "AI", pfmatt);
 
-	MatDoub A;
-	A.assign(2, 3, 0.);
+	MatDoub A(2, 3);
+	A = 0;
 	A[0][0] = 1; A[0][1] = 3; A[0][2] = 5; A[1][2] = 11;
 	matsave(A, "A", pfmat);
 	mattsave(A, "A", pfmatt);
 
-	MatComplex C(3, 3);
-	Complex *pC{ &C[0][0] };
+	MatComp C(3, 3);
+	Comp *pC{ &C[0][0] };
 	for (Int i = 0; i < 9; ++i) {
 		pC[i] = 1 + (Doub)i + I * (Doub)i;
 	}
@@ -114,13 +115,13 @@ int main()
 
 	C.resize(5, 7);
 	for (Int i = 0; i < 35; ++i) {
-		C[0][i] = Complex(i, i + 1.);
+		C[0][i] = Comp(i, i + 1.);
 	}
 	matsave(C, "Csample", pfmat, 2, 3);
 	mattsave(C, "Csample", pfmatt, 2, 3);
 
 	//// 3d arrays
-	Mat3DDoub A3;
+	Mat3Doub A3;
 	A3.resize(2, 2, 2);
 	Doub *pA3 = A3[0][0];
 	for (Int i = 0; i < 8; ++i)
@@ -128,11 +129,11 @@ int main()
 	matsave(A3, "A3", pfmat);
 	mattsave(A3, "A3", pfmatt);
 
-	Mat3DComplex C3;
+	Mat3Comp C3;
 	C3.resize(2, 2, 2);
-	Complex *pC3 = C3[0][0];
+	Comp *pC3 = C3[0][0];
 	for (Int i = 0; i < 8; ++i)
-		pC3[i] = Complex(1. + (Doub)i, (Doub)i);
+		pC3[i] = Comp(1. + (Doub)i, (Doub)i);
 	matsave(C3, "C3", pfmat);
 	mattsave(C3, "C3", pfmatt);
 
@@ -146,7 +147,7 @@ int main()
 
 	C3.resize(5, 5, 5);
 	for (Int i = 0; i < 125; ++i)
-		C3[0][0][i] = Complex((Doub)i, i+1.);
+		C3[0][0][i] = Comp((Doub)i, i+1.);
 	matsave(C3, "C3slice", pfmat, 'y', slice, 1, 2);
 	mattsave(C3, "C3slice", pfmatt, 'y', slice, 1, 2);
 
@@ -174,9 +175,9 @@ int main()
 	cout << "si = " << si << '\n' << endl;
 
 	s = 0.;
-	cout.precision(16);
 	matload(s, "s", pfmat);
 	cout << "s = " << s << '\n' << endl;
+	s = 0;
 	mattload(s, "s", pfmatt);
 	cout << "s = " << s << '\n' << endl;
 
@@ -195,18 +196,15 @@ int main()
 	mattload(v8, "v8", pfmatt);
 	cout << "v8 = " << endl;
 	disp(v8, 16);
-	// TODO: disp(v8, 16);
 
 	vi.resize(0);
 	matload(vi, "vi", pfmat);
 	cout << "vi = " << endl;
 	disp(vi, 16);
-	// TODO: disp(vi, 16);
 	vi.resize(0);
 	mattload(vi, "vi", pfmatt);
 	cout << "vi = " << endl;
 	disp(vi, 16);
-	// TODO: disp(vi, 16);
 
 	v.resize(0);
 	matload(v, "v", pfmat);
@@ -266,14 +264,21 @@ int main()
 	// 3D arrays
 	A3.resize(0, 0, 0);
 	matload(A3, "A3", pfmat);
+	cout << "A3 = " << endl;
+	disp(A3, 16);
 	A3.resize(0, 0, 0);
 	mattload(A3, "A3", pfmatt);
-	//TODO design 3d disp
+	cout << "A3 = " << endl;
+	disp(A3, 16);
 
 	C3.resize(0, 0, 0);
 	matload(C3, "C3", pfmat);
+	cout << "C3 = " << endl;
+	disp(C3, 16);
 	C3.resize(0, 0, 0);
 	mattload(C3, "C3", pfmatt);
+	cout << "C3 = " << endl;
+	disp(C3, 16);
 
 	matClose(pfmat);
 	mattClose(pfmatt);
