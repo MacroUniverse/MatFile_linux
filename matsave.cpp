@@ -4,7 +4,7 @@ using namespace std;
 
 #if defined(MATFILE_BINARY) || defined(MATFILE_DUAL)
 
-void matsave(const Uchar s, const string &varname, MATFile *pfile)
+void matsave(Uchar_I s, const string &varname, MATFile *pfile)
 {
 	mxArray *ps;
 	ps = mxCreateNumericMatrix(1, 1, mxUINT8_CLASS, mxREAL);
@@ -24,7 +24,7 @@ void matsave(Int_I s, const string &varname, MATFile *pfile)
 	mxDestroyArray(ps);
 }
 
-void matsave(const Doub s, const string &varname, MATFile *pfile)
+void matsave(Doub_I s, const string &varname, MATFile *pfile)
 {
 	mxArray *ps;
 	ps = mxCreateDoubleMatrix(1, 1, mxREAL);
@@ -34,7 +34,7 @@ void matsave(const Doub s, const string &varname, MATFile *pfile)
 	mxDestroyArray(ps);
 }
 
-void matsave(const Comp s, const string &varname, MATFile *pfile)
+void matsave(Comp_I s, const string &varname, MATFile *pfile)
 {
 	mxArray *pa;
 	pa = mxCreateDoubleMatrix(1, 1, mxCOMPLEX);
@@ -193,7 +193,7 @@ void matsave(Mat3Doub_I &a, const string &varname, MATFile *pfile,
 
 
 void matsave(Mat3Doub_I &a, const string &varname, MATFile *pfile,
-			const Char xyz, VecInt_I &slice, Long_I step1, Long_I step2)
+			Char_I xyz, VecInt_I &slice, Long_I step1, Long_I step2)
 {
 	Long i, j, k, m, n, mn, Nslice{ slice.size() }, ind;
 	mxArray *pa;
@@ -277,7 +277,7 @@ void matsave(Mat3Comp_I &a, const string &varname, MATFile *pfile,
 }
 
 void matsave(Mat3Comp_I &a, const string &varname, MATFile *pfile,
-			const Char xyz, VecInt_I &slice, Long_I step1, Long_I step2)
+			Char_I xyz, VecInt_I &slice, Long_I step1, Long_I step2)
 {	
 	Long i, j, k, m, n, mn, inda, Nslice{ slice.size() }, ind;
 	mxArray *pa;
@@ -391,7 +391,7 @@ void matload(VecUchar_O &v, const string &varname, MATFile *pfile)
 	if (!mxIsUint8(pv))
 		error("matload(VecUchar_O &v...): wrong type!")
 	n = mxGetDimensions(pv)[1];
-	if (v.size() != n) v.resize(n);
+	v.resize(n);
 	Uchar *ppv = (Uchar *)mxGetPr(pv);
 	for (i = 0; i < n; ++i)
 		v[i] = ppv[i];
@@ -423,7 +423,7 @@ void matload(VecDoub_O &v, const string &varname, MATFile *pfile)
 	if (mxIsComplex(pv))
 		error("matload(VecDoub_O &v...): wrong type!")
 	n = mxGetDimensions(pv)[1];
-	if (v.size() != n) v.resize(n);
+	v.resize(n);
 	auto ppv = mxGetPr(pv);
 	for (i = 0; i < n; ++i)
 		v[i] = ppv[i];
@@ -628,7 +628,7 @@ void getprofile(MATTFile *pfile)
 	}
 }
 
-MATTFile *mattOpen(string fname, const Char *rw)
+MATTFile *mattOpen(string fname, Char_I *rw)
 {
 	// must open file in binary mode, otherwise, '\n' will be written as "\r\n"
 	// and seekg() will not work the same in linux.
@@ -674,7 +674,7 @@ void mattClose(MATTFile* pfile)
 	delete pfile;
 }
 
-void mattsave(const Uchar s, const string &varname, MATTFile *pfile)
+void mattsave(Uchar_I s, const string &varname, MATTFile *pfile)
 {
 	Long i, n;
 	ofstream &fout = pfile->out;
@@ -712,7 +712,7 @@ void mattsave(Int_I s, const string &varname, MATTFile *pfile)
 	fout << s << '\n';
 }
 
-void mattsave(const Doub s, const string &varname, MATTFile *pfile)
+void mattsave(Doub_I s, const string &varname, MATTFile *pfile)
 {
 	Long i, n;
 	ofstream &fout = pfile->out;
@@ -731,7 +731,7 @@ void mattsave(const Doub s, const string &varname, MATTFile *pfile)
 	fout << s << '\n';
 }
 
-void mattsave(const Comp s, const string &varname, MATTFile *pfile)
+void mattsave(Comp_I s, const string &varname, MATTFile *pfile)
 {
 	Long i, n;
 	ofstream &fout = pfile->out;
@@ -978,7 +978,7 @@ void mattsave(Mat3Doub_I &a, const string &varname, MATTFile *pfile,
 }
 
 void mattsave(Mat3Doub_I &a, const string &varname, MATTFile *pfile,
-	const Char xyz, VecInt_I &slice, Long_I step1, Long_I step2)
+	Char_I xyz, VecInt_I &slice, Long_I step1, Long_I step2)
 {
 	Long i, j, k, m, n, ind, Nslice{ slice.size() };
 	ofstream &fout = pfile->out;
@@ -1065,7 +1065,7 @@ void mattsave(Mat3Comp_I &a, const string &varname, MATTFile *pfile,
 }
 
 void mattsave(Mat3Comp_I &a, const string &varname, MATTFile *pfile,
-	const Char xyz, VecInt_I &slice, Long_I step1, Long_I step2)
+	Char_I xyz, VecInt_I &slice, Long_I step1, Long_I step2)
 {
 	Long i, j, k, m, n, ind, Nslice{ slice.size() };
 	Comp c; Doub cr, ci;

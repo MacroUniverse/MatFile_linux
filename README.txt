@@ -29,8 +29,9 @@ and the program should run successfully.
 =============== Binary Mode ==============
 * If MATFILE_BINARY is defined, then the program uses binary mode.
 * The available functions are "matOpen(), matClose(), matsave() matload()".
-* For simplicy of the code, type checking is as strict as possible for matload() functions, any type unmatch will result in an error. However, you can load double data to complex types, or load complex dat to double types when all imaginary parts are zero.
-
+* For simplicy of the code, type checking is as strict as possible for matload() functions, any type unmatch will result in an error. However, you can load double data to complex types, or load complex data to double types when all imaginary parts are zero.
+* When a file with the same name is reopened, the old file will be replaced.
+* It is ok if a file is not closed if there is at least one variable in it.
 
 =============== Dual Mode ================
 If MATFILE_DUAL is set, use "matOpen(), matClose(), matsave() matload()" for ".mat" files, and "mattOpen(), mattClose(), mattsave() mattload()" for ".matt" files.

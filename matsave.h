@@ -30,7 +30,7 @@ struct MATTFile {
 	std::vector<Long> ind; // variable positions (line indices)
 };
 
-MATTFile *mattOpen(std::string fname, const Char *rw);
+MATTFile *mattOpen(std::string fname, Char_I *rw);
 
 void mattClose(MATTFile *pfile);
 #endif
@@ -45,13 +45,13 @@ typedef MATTFile MATFile;
 
 // matsave()
 
-void matsave(const Uchar s, const std::string &varname, MATFile *pfile);
+void matsave(Uchar_I s, const std::string &varname, MATFile *pfile);
 
 void matsave(Int_I s, const std::string &varname, MATFile *pfile);
 
-void matsave(const Doub s, const std::string &varname, MATFile *pfile);
+void matsave(Doub_I s, const std::string &varname, MATFile *pfile);
 
-void matsave(const Comp s, const std::string &varname, MATFile *pfile);
+void matsave(Comp_I s, const std::string &varname, MATFile *pfile);
 
 void matsave(VecUchar_I &v, const std::string &varname, MATFile *pfile);
 
@@ -77,13 +77,13 @@ void matsave(Mat3Doub_I &a, const std::string &varname, MATFile *pfile,
 			Long_I step1 = 1, Long_I step2 = 1, Long_I step3 = 1);
 
 void matsave(Mat3Doub_I &a, const std::string &varname, MATFile *pfile,
-			const Char xyz, const VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
+			Char_I xyz, const VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
 
 void matsave(Mat3Comp_I &a, const std::string &varname, MATFile *pfile,
 			Long_I step1 = 1, Long_I step2 = 1, Long_I step3 = 1);
 
 void matsave(Mat3Comp_I &a, const std::string &varname, MATFile *pfile,
-			const Char xyz, VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
+			Char_I xyz, VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
 
 // matload()
 
@@ -116,13 +116,13 @@ void matload(Mat3Doub_O &a, const std::string &varname, MATFile *pfile);
 void matload(Mat3Comp_O &a, const std::string &varname, MATFile *pfile);
 
 #ifdef MATFILE_DUAL
-void mattsave(const Uchar s, const std::string &varname, MATTFile *pfile);
+void mattsave(Uchar_I s, const std::string &varname, MATTFile *pfile);
 
 void mattsave(Int_I s, const std::string &varname, MATTFile *pfile);
 
-void mattsave(const Doub s, const std::string &varname, MATTFile *pfile);
+void mattsave(Doub_I s, const std::string &varname, MATTFile *pfile);
 
-void mattsave(const Comp s, const std::string &varname, MATTFile *pfile);
+void mattsave(Comp_I s, const std::string &varname, MATTFile *pfile);
 
 void mattsave(VecUchar_I &v, const std::string &varname, MATTFile *pfile);
 
@@ -148,13 +148,13 @@ void mattsave(Mat3Doub_I &a, const std::string &varname, MATTFile *pfile,
 	Long_I step1 = 1, Long_I step2 = 1, Long_I step3 = 1);
 
 void mattsave(Mat3Doub_I &a, const std::string &varname, MATTFile *pfile,
-	const Char xyz, const VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
+	Char_I xyz, const VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
 
 void mattsave(Mat3Comp_I &a, const std::string &varname, MATTFile *pfile,
 	Long_I step1 = 1, Long_I step2 = 1, Long_I step3 = 1);
 
 void mattsave(Mat3Comp_I &a, const std::string &varname, MATTFile *pfile,
-	const Char xyz, VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
+	Char_I xyz, VecInt_I &slice, Long_I step1 = 1, Long_I step2 = 1);
 
 // matload()
 
