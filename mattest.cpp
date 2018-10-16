@@ -1,7 +1,6 @@
 #include <iostream>
-#include "nr3.h"
-#include "nr3plus.h"
-#include "matsave.h"
+#include "MatFile_linux/matsave.h"
+#include "SLISC/disp.h"
 
 using namespace std;
 
@@ -9,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	
+	using namespace slisc;
 	// TODO: write 2 conversion functions for any file
 	//mat2matt("waveInit.mat", "waveInit.matt");
 	//matt2mat()

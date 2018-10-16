@@ -1,14 +1,13 @@
 # Makefile
 
 exe = mattest.x
-
+BinPath = ../MatFile_linux/MatFile_linux/bin/
 #========  settings for MatFile ====================a
 mode = 3
 ifeq ($(mode),1)
     # binary mode
-    MatPath = ../MatFile_linux/
-    MatCompile = -I $(MatPath) -D MATFILE_BINARY 
-    MatLink = -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
+    MatCompile = -I $(MatFilePath) -D MATFILE_BINARY 
+    MatLink = -Wl,-rpath,$(BinPath) -L$(BinPath) -l mat -l mx
 endif
 ifeq ($(mode),2)
     # text mode
@@ -16,18 +15,17 @@ ifeq ($(mode),2)
 endif
 ifeq ($(mode),3)
     # dual mode
-    MatPath = ../MatFile_linux/
-    MatCompile = -I $(MatPath) -D MATFILE_DUAL -D MATFILE_PRECISION=8
-    MatLink = -Wl,-rpath,$(MatPath)bin/ -L$(MatPath)bin/ -l mat -l mx
+    MatCompile = -D MATFILE_DUAL -D MATFILE_PRECISION=8
+    MatLink = -Wl,-rpath,$(BinPath) -L$(BinPath) -l mat -l mx
 endif
 #=================================================
 
 
-source = mattest.cpp nr3plus.cpp matsave.cpp
-objects = $(source:.cpp=.o)
+source = mattest.cpp
+objects = mattest.o
 compiler = g++
 
-flags = -g -std=c++11
+flags = -g -std=c++11 -O3
 # -g -O3 -fopenmp
 
 $(exe):$(objects)
@@ -38,4 +36,3 @@ $(objects):$(source)
 
 clean:
 	rm -f *.o *.x *.gch *.mat *.matt
-
