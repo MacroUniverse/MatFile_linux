@@ -45,3 +45,8 @@ if xyz = 'y', step1 is in z direction, step2 is in x direction, save pa[iz][ix][
 if xyz = 'z', step1 is in x direction, step2 is in y direction, save pa[ix][iy][iz]. */
 
 mattOpen() will check file existence, but matOpen() will not!
+
+
+===========  TODO ==========
+* test conversion function between ".mat" and ".matt"
+* see test/test_TODO.h
