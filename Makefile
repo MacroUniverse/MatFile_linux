@@ -6,7 +6,7 @@ BinPath = ../MatFile_linux/MatFile_linux/bin/
 mode = 3
 ifeq ($(mode),1)
     # binary mode
-    MatCompile = -I $(MatFilePath) -D MATFILE_BINARY 
+    MatCompile = -D MATFILE_BINARY 
     MatLink = -Wl,-rpath,$(BinPath) -L$(BinPath) -l mat -l mx
 endif
 ifeq ($(mode),2)
