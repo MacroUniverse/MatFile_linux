@@ -1,4 +1,5 @@
 see "matfile.h" and "test_matfile.cpp" in SLISC0 project.
+The binary files are copied from a Matlab installation on Ubuntu 16.04 on x86-64 platform. Compatibility with other linux distributions has not been tested.
 
 ------- old README.txt --------------------
 
