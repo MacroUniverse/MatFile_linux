@@ -1,13 +1,8 @@
-Save NR3 vectors/matrices to ".mat" or ".matt"
+see "matfile.h" and "test_matfile.cpp" in SLISC0 project.
+
+------- old README.txt --------------------
 
 Matfile_linux project and Matfile_win64 project are considered the same project. All ".h", ".cpp", ".m" files and this file should be the same, only binary files are different.
-
-============ Linux ==================
-
-* For new linux projucts using NR3 ("nr3.h", "nr3plus.h", "nr3plus.cpp") and this project, copy "matsave.h", "matsave.cpp" and "Makefile" to the new project, this should be all that's required to save to ".matt" format.
-* To save to ".mat", all other files/folder are required. Either set path in Makefile to this project (recommended) or copy the files/folder to the new project.
-* To use this project with CUDA in linux, use the template in CUDATest project.
-
 
 ============ Win64 ===================
 
@@ -21,32 +16,8 @@ Matfile_linux project and Matfile_win64 project are considered the same project.
 and the program should run successfully.
 
 ===============  Text Mode ==============
-* First, when using Git, it is best to set "*.matt" as binary (create .gitattribute file for the repo, add "*.matt binary"). This will prevent git from diffing "*.matt" files and most importantly, from doing autocrlf. It's also recommanded to add "*.matt binary" to "~/.config/git/attributes" to make this setting global.
-* If neither MATFILE_BINARY nor MATFILE_DUAL macro is defined, the program uses text mode. You can also set MATFILE_PRECISION to define the writing precision, note that the reading precision is not affected by MATFILE_PRECISION and is always as accurate as possible.
-* The available functions are "matOpen(), matClose(), matsave() matload()".
 * Type checking is not strict, as long as no accuracy is lost. For example, Uchar can be loaded as Int or Doub or Complex, Int can be loaded as Doub or Complex but not Uchar, Double can be loaded as Complex, etc. Complex can not be loaded as double even if all imaginary parts are 0.
 
 =============== Binary Mode ==============
-* If MATFILE_BINARY is defined, then the program uses binary mode.
-* The available functions are "matOpen(), matClose(), matsave() matload()".
 * For simplicy of the code, type checking is as strict as possible for matload() functions, any type unmatch will result in an error. However, you can load double data to complex types, or load complex data to double types when all imaginary parts are zero.
-* When a file with the same name is reopened, the old file will be replaced.
 * It is ok if a file is not closed if there is at least one variable in it.
-
-=============== Dual Mode ================
-If MATFILE_DUAL is set, use "matOpen(), matClose(), matsave() matload()" for ".mat" files, and "mattOpen(), mattClose(), mattsave() mattload()" for ".matt" files.
-
-
-Save 3D slices:
-
-/* specify xyz = 'x','y' or 'z', and take Nslice at indslice[i]
-if xyz = 'x', step1 is in y direction, step2 is in z direction, save pa[iy][iz][ix].
-if xyz = 'y', step1 is in z direction, step2 is in x direction, save pa[iz][ix][iy].
-if xyz = 'z', step1 is in x direction, step2 is in y direction, save pa[ix][iy][iz]. */
-
-mattOpen() will check file existence, but matOpen() will not!
-
-
-===========  TODO ==========
-* test conversion function between ".mat" and ".matt"
-* see test/test_TODO.h
